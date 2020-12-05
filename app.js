@@ -10,7 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
@@ -33,3 +32,104 @@ const render = require("./lib/htmlRenderer");
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+
+const managerQuestions = [
+  {
+    type: "input",
+    message:
+      "As manager, enter the following information, and select employees.\nWhat is your name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is your employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is your Email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is your office number?",
+    name: "officeNumber",
+  },
+
+  {
+    type: "confirm",
+    message: "Would you like to add an Employee?",
+    name: "addEmployee",
+  },
+  {
+    type: "list",
+    message: "What type of employee would you like to add?",
+    choices: ["Engineer", "Intern"],
+    name: "position",
+  },
+];
+
+const internQuestions = [
+  {
+    type: "input",
+    message: "What is the name of the intern?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is the employee ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is your employees Email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What school does your intern attend?",
+    name: "school",
+  },
+];
+const engineerQuestions = [
+  {
+    type: "input",
+    message: "What is the name of the engineer?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is this employees ID number?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is this employees Email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is this employees GitHub username?",
+    name: "github",
+  },
+];
+
+const getEmployeeInfo = () => {
+  inquirer.prompt(managerQuestions).then((response) => console.log(response));
+};
+
+const getInternInfo = () => {
+  inquirer.prompt(internQuestions).then((response) => console.log(response));
+};
+
+// const manager = new Manager(
+//   answers.managerName,
+//   answers.managerId,
+//   answers.managerEmail,
+//   answers.managerOfficeNumber
+// );
+
+// manager - {  Steve, 1234, email@email.com, 1234 office number };
+
+const addAnother = () => {};
+getEmployeeInfo();
