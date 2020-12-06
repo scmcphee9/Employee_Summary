@@ -155,27 +155,9 @@ const getManagerInfo = () => {
       // console.log(employees);
       writeToFile(employees);
     }
-    // create new manager position and push to array,
-    // if statement for engineer intern or none to kick off appropriate function for questions and making new positions
-    // response.position
-    // console.log(response);
   });
-  // none - call write html file
 };
 
-// const getInternInfo = () => {
-//   inquirer.prompt(internQuestions).then((response) => console.log(response));
-// };
-
-// const getEngineerInfo = () => {
-//   inquirer.prompt(engineerQuestions).then((response) => console.log(response));
-// };
-
-// const addAnother = () => {};
-getManagerInfo();
-// console.log(managers);
-// console.log(engineers);
-// console.log(interns);
 const reAskQuestions = [
   {
     type: "list",
@@ -225,3 +207,5 @@ function writeToFile(data) {
     console.log("Success!")
   );
 }
+
+getManagerInfo();
