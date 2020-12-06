@@ -221,5 +221,7 @@ const reAsk = () => {
 };
 
 function writeToFile(data) {
-  return fs.writeFile("team.html", render(data), () => console.log("Success!"));
+  return fs.writeFile("./output/team.html", render(data), () =>
+    console.log("Success!")
+  );
 }
