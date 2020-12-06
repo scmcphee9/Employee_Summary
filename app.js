@@ -33,6 +33,7 @@ const render = require("./lib/htmlRenderer");
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
+// inquirer questions to prompt in command line
 const managerQuestions = [
   {
     type: "input",
@@ -108,6 +109,7 @@ const engineerQuestions = [
   },
 ];
 
+// empty arrays to collect your newly created positions
 const managers = [];
 const engineers = [];
 const interns = [];
@@ -122,7 +124,7 @@ const getManagerInfo = () => {
       response.officeNumber
     );
     managers.push(manager);
-
+    // if statement to prompt engineer, intern or write file function
     if (response.position === "Engineer") {
       inquirer.prompt(engineerQuestions).then((response) => {
         const engineer = new Engineer(
@@ -149,6 +151,7 @@ const getManagerInfo = () => {
         reAsk();
       });
     } else {
+      // pushes arrays all to one array called employees
       Array.prototype.push.apply(employees, managers);
       Array.prototype.push.apply(employees, engineers);
       Array.prototype.push.apply(employees, interns);
@@ -158,6 +161,7 @@ const getManagerInfo = () => {
   });
 };
 
+// questions to reask question for engineer or intern
 const reAskQuestions = [
   {
     type: "list",
@@ -167,6 +171,7 @@ const reAskQuestions = [
   },
 ];
 
+// function to reask for as many positions needed
 const reAsk = () => {
   inquirer.prompt(reAskQuestions).then((response) => {
     if (response.position === "Engineer") {
@@ -202,10 +207,12 @@ const reAsk = () => {
   });
 };
 
+// writes the file
 function writeToFile(data) {
   return fs.writeFile("./output/team.html", render(data), () =>
     console.log("Success!")
   );
 }
 
+// starts function to kickoff your manager information
 getManagerInfo();
