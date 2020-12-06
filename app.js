@@ -111,6 +111,7 @@ const engineerQuestions = [
 const managers = [];
 const engineers = [];
 const interns = [];
+const employees = [];
 
 const getManagerInfo = () => {
   inquirer.prompt(managerQuestions).then((response) => {
@@ -132,6 +133,7 @@ const getManagerInfo = () => {
         );
 
         engineers.push(engineer);
+
         reAsk();
       });
     } else if (response.position === "Intern") {
@@ -143,10 +145,15 @@ const getManagerInfo = () => {
           response.school
         );
         interns.push(intern);
+
         reAsk();
       });
     } else {
-      console.log("Done");
+      Array.prototype.push.apply(employees, managers);
+      Array.prototype.push.apply(employees, engineers);
+      Array.prototype.push.apply(employees, interns);
+      // console.log(employees);
+      writeToFile(employees);
     }
     // create new manager position and push to array,
     // if statement for engineer intern or none to kick off appropriate function for questions and making new positions
@@ -204,7 +211,15 @@ const reAsk = () => {
         reAsk();
       });
     } else {
-      console.log("Done");
+      Array.prototype.push.apply(employees, managers);
+      Array.prototype.push.apply(employees, engineers);
+      Array.prototype.push.apply(employees, interns);
+      // console.log(employees);
+      writeToFile(employees);
     }
   });
 };
+
+function writeToFile(data) {
+  return fs.writeFile("team.html", render(data), () => console.log("Success!"));
+}
