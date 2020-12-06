@@ -38,33 +38,27 @@ const managerQuestions = [
     type: "input",
     message:
       "As manager, enter the following information, and select employees.\nWhat is your name?",
-    name: "name",
+    name: "managerName",
   },
   {
     type: "input",
     message: "What is your employee ID number?",
-    name: "id",
+    name: "managerId",
   },
   {
     type: "input",
     message: "What is your Email?",
-    name: "email",
+    name: "managerEmail",
   },
   {
     type: "input",
     message: "What is your office number?",
     name: "officeNumber",
   },
-
-  {
-    type: "confirm",
-    message: "Would you like to add an Employee?",
-    name: "addEmployee",
-  },
   {
     type: "list",
     message: "What type of employee would you like to add?",
-    choices: ["Engineer", "Intern"],
+    choices: ["Engineer", "Intern", "None"],
     name: "position",
   },
 ];
@@ -73,17 +67,17 @@ const internQuestions = [
   {
     type: "input",
     message: "What is the name of the intern?",
-    name: "name",
+    name: "internName",
   },
   {
     type: "input",
     message: "What is the employee ID number?",
-    name: "id",
+    name: "internId",
   },
   {
     type: "input",
     message: "What is your employees Email?",
-    name: "email",
+    name: "internEmail",
   },
   {
     type: "input",
@@ -95,17 +89,17 @@ const engineerQuestions = [
   {
     type: "input",
     message: "What is the name of the engineer?",
-    name: "name",
+    name: "engName",
   },
   {
     type: "input",
     message: "What is this employees ID number?",
-    name: "id",
+    name: "engId",
   },
   {
     type: "input",
     message: "What is this employees Email?",
-    name: "email",
+    name: "engEmail",
   },
   {
     type: "input",
@@ -114,22 +108,103 @@ const engineerQuestions = [
   },
 ];
 
-const getEmployeeInfo = () => {
-  inquirer.prompt(managerQuestions).then((response) => console.log(response));
+const managers = [];
+const engineers = [];
+const interns = [];
+
+const getManagerInfo = () => {
+  inquirer.prompt(managerQuestions).then((response) => {
+    const manager = new Manager(
+      response.managerName,
+      response.managerId,
+      response.managerEmail,
+      response.officeNumber
+    );
+    managers.push(manager);
+
+    if (response.position === "Engineer") {
+      inquirer.prompt(engineerQuestions).then((response) => {
+        const engineer = new Engineer(
+          response.engName,
+          response.engId,
+          response.engEmail,
+          response.github
+        );
+
+        engineers.push(engineer);
+        reAsk();
+      });
+    } else if (response.position === "Intern") {
+      inquirer.prompt(internQuestions).then((response) => {
+        const intern = new Intern(
+          response.internName,
+          response.internId,
+          response.internEmail,
+          response.school
+        );
+        interns.push(intern);
+        reAsk();
+      });
+    } else {
+      console.log("Done");
+    }
+    // create new manager position and push to array,
+    // if statement for engineer intern or none to kick off appropriate function for questions and making new positions
+    // response.position
+    // console.log(response);
+  });
+  // none - call write html file
 };
 
-const getInternInfo = () => {
-  inquirer.prompt(internQuestions).then((response) => console.log(response));
+// const getInternInfo = () => {
+//   inquirer.prompt(internQuestions).then((response) => console.log(response));
+// };
+
+// const getEngineerInfo = () => {
+//   inquirer.prompt(engineerQuestions).then((response) => console.log(response));
+// };
+
+// const addAnother = () => {};
+getManagerInfo();
+// console.log(managers);
+// console.log(engineers);
+// console.log(interns);
+const reAskQuestions = [
+  {
+    type: "list",
+    message: "What type of employee would you like to add?",
+    choices: ["Engineer", "Intern", "None"],
+    name: "position",
+  },
+];
+
+const reAsk = () => {
+  inquirer.prompt(reAskQuestions).then((response) => {
+    if (response.position === "Engineer") {
+      inquirer.prompt(engineerQuestions).then((response) => {
+        const engineer = new Engineer(
+          response.engName,
+          response.engId,
+          response.engEmail,
+          response.github
+        );
+
+        engineers.push(engineer);
+        reAsk();
+      });
+    } else if (response.position === "Intern") {
+      inquirer.prompt(internQuestions).then((response) => {
+        const intern = new Intern(
+          response.internName,
+          response.internId,
+          response.internEmail,
+          response.school
+        );
+        interns.push(intern);
+        reAsk();
+      });
+    } else {
+      console.log("Done");
+    }
+  });
 };
-
-// const manager = new Manager(
-//   answers.managerName,
-//   answers.managerId,
-//   answers.managerEmail,
-//   answers.managerOfficeNumber
-// );
-
-// manager - {  Steve, 1234, email@email.com, 1234 office number };
-
-const addAnother = () => {};
-getEmployeeInfo();
